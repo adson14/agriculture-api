@@ -9,7 +9,7 @@ services:
     ports:
       - "3001:3001"
     networks:
-      - default     
+      - nestjs_network     
     depends_on:
       - brain-ag-db
 
@@ -22,7 +22,7 @@ services:
     ports:
       - "5433:${DATABASE_PORT}"   
     networks:
-      - default  
+      - nestjs_network  
 
 networks:
   nestjs_network:
