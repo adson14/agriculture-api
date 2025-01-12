@@ -1,11 +1,11 @@
 -- -----------------------------------------------------
 -- Schema brain
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS brain;
-SET search_path TO brain;
+CREATE SCHEMA IF NOT EXISTS public;
+SET search_path TO public;
 
 -- -----------------------------------------------------
--- Table brain.producer
+-- Table public.producer
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS producer (
   id SERIAL PRIMARY KEY,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS producer (
 );
 
 -- -----------------------------------------------------
--- Table brain.farm
+-- Table public.farm
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS farm (
   id SERIAL PRIMARY KEY,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS farm (
 );
 
 -- -----------------------------------------------------
--- Table brain.crop
+-- Table public.crop
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS crop (
   id SERIAL PRIMARY KEY,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS crop (
 );
 
 -- -----------------------------------------------------
--- Table brain.crops_planted
+-- Table public.crops_planted
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS crops_planted (
   id SERIAL PRIMARY KEY,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS crops_planted (
 );
 
 -- -----------------------------------------------------
--- Table brain.crop_culture
+-- Table public.crop_culture
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS crop_culture (
   id SERIAL PRIMARY KEY,
