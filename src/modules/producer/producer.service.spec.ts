@@ -101,4 +101,30 @@ describe('ProducerService', () => {
       expect(repository.findOneBy).toHaveBeenCalled();
     });
   });
+
+  describe('update', () => {
+    it('should update producer', async () => {
+      const mockProducer = {
+        id: faker.number.int(),
+        name: faker.person.fullName(),
+        doc_type: 'CPF',
+        document: '12345678901',
+      };
+
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockProducer);
+
+      const savedProducer = {
+        name: 'Meu teste',
+        ...mockProducer,
+      };
+
+      jest.spyOn(repository, 'save').mockResolvedValue(savedProducer);
+
+      const result = await service.update(mockProducer.id, savedProducer);
+
+      expect(result).toEqual(savedProducer);
+
+      expect(repository.save).toHaveBeenCalledWith(savedProducer);
+    });
+  });
 });
