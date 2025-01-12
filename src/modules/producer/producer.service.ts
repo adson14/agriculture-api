@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -19,5 +19,13 @@ export class ProducerService {
 
   async findAll(): Promise<Producer[]> {
     return await this.producersRepository.find();
+  }
+
+  async findOne(id: number): Promise<Producer | null> {
+    const producer = await this.producersRepository.findOneBy({ id });
+    if (!producer) {
+      throw new NotFoundException(`Produtor não encontrado.`);
+    }
+    return producer;
   }
 }

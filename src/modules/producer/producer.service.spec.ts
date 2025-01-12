@@ -82,4 +82,23 @@ describe('ProducerService', () => {
       expect(repository.find).toHaveBeenCalled();
     });
   });
+
+  describe('findOne', () => {
+    it('should return producer', async () => {
+      const mockProducer = {
+        id: faker.number.int(),
+        name: faker.person.fullName(),
+        doc_type: 'CPF',
+        document: '12345678901',
+      };
+
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockProducer);
+
+      const result = await service.findOne(mockProducer.id);
+
+      expect(result).toEqual(mockProducer);
+
+      expect(repository.findOneBy).toHaveBeenCalled();
+    });
+  });
 });
