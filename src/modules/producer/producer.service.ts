@@ -69,6 +69,12 @@ export class ProducerService {
   }
 
   async remove(id: number): Promise<DeleteResult> {
+    const producer = await this.producersRepository.findOneBy({ id });
+
+    if (!producer) {
+      throw new NotFoundException(`Produtor não encontrado`);
+    }
+
     return this.producersRepository.delete(id);
   }
 }

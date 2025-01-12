@@ -5,8 +5,6 @@ import { DeleteResult, Repository } from 'typeorm';
 import { Producer } from './entities/producer.entity';
 import { faker } from '@faker-js/faker';
 import { NotFoundException } from '@nestjs/common';
-import { CreateProducerDto } from './dto/create-producer.dto';
-import { validate } from 'class-validator';
 
 describe('ProducerService', () => {
   let service: ProducerService;
@@ -134,40 +132,28 @@ describe('ProducerService', () => {
   });
 
   describe('delete', () => {
-    it('should return an array of producers', async () => {
-      const mockProducers = Array.from({ length: 5 }).map(() => {
-        const docType = faker.helpers.arrayElement(['CPF', 'CNPJ']);
-        const document =
-          docType === 'CPF'
-            ? faker.string.numeric(11)
-            : faker.string.numeric(14);
-
-        return {
-          id: faker.number.int(),
-          name: faker.person.fullName(),
-          doc_type: docType,
-          document,
-        };
-      });
-      jest.spyOn(repository, 'find').mockResolvedValue(mockProducers);
-
-      const result = await service.findAll();
-
-      let findDelete = result[0];
+    it('should delete a producer and return the result', async () => {
+      const deleteResult = { affected: 1 } as DeleteResult;
 
       jest
-        .spyOn(repository, 'delete')
-        .mockResolvedValue({ affected: 1 } as DeleteResult);
+        .spyOn(repository, 'findOneBy')
+        .mockResolvedValue({ id: 1 } as Producer);
+      jest.spyOn(repository, 'delete').mockResolvedValue(deleteResult);
 
-      const deleteResult = await service.remove(findDelete.id);
+      const result = await service.remove(1);
 
-      jest.spyOn(repository, 'findOneBy').mockResolvedValue(undefined);
+      expect(repository.findOneBy).toHaveBeenCalledWith({ id: 1 });
+      expect(repository.delete).toHaveBeenCalledWith(1);
 
-      await expect(service.findOne(findDelete.id)).rejects.toThrow(
-        NotFoundException,
-      );
+      expect(result).toEqual(deleteResult);
+    });
 
-      expect(deleteResult).toEqual({ affected: 1 });
+    it('should throw NotFoundException if farm is not found', async () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+
+      await expect(service.remove(999)).rejects.toThrow(NotFoundException);
+
+      expect(repository.findOneBy).toHaveBeenCalledWith({ id: 999 });
     });
   });
 });

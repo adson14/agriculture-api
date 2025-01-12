@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProducerModule } from './modules/producer/producer.module';
 import { ConfigModule } from '@nestjs/config';
+import { FarmModule } from './modules/farm/farm.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
     }),
     ProducerModule,
+    FarmModule,
   ],
   controllers: [AppController],
   providers: [AppService],
