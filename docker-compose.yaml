@@ -1,0 +1,29 @@
+version: '3.5'
+services:
+  brain-ag-api:
+    build:
+      context: .
+    volumes:
+      - .:/app  
+      - /app/node_modules
+    ports:
+      - "3001:3001"
+    networks:
+      - default     
+    depends_on:
+      - brain-ag-db
+
+  brain-ag-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "5433:5432"   
+    networks:
+      - default  
+
+networks:
+  nestjs_network:
+    driver: bridge
