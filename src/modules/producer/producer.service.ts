@@ -16,4 +16,8 @@ export class ProducerService {
       await this.producersRepository.create(createProducerDto);
     return this.producersRepository.save(newProducer);
   }
+
+  async findAll(): Promise<Producer[]> {
+    return await this.producersRepository.find();
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ProducerService } from './producer.service';
 import { CreateProducerDto } from './dto/create-producer.dto';
 
@@ -9,5 +9,10 @@ export class ProducerController {
   @Post()
   create(@Body() createProducerDto: CreateProducerDto) {
     return this.producerService.create(createProducerDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.producerService.findAll();
   }
 }

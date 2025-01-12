@@ -3,6 +3,7 @@ import { ProducerService } from './producer.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Producer } from './entities/producer.entity';
+import { faker } from '@faker-js/faker';
 
 describe('ProducerService', () => {
   let service: ProducerService;
@@ -53,6 +54,32 @@ describe('ProducerService', () => {
       expect(repository.create).toHaveBeenCalledWith(createProducerDto);
 
       expect(repository.save).toHaveBeenCalledWith(savedProducer);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return an array of producers', async () => {
+      const mockProducers = Array.from({ length: 5 }).map(() => {
+        const docType = faker.helpers.arrayElement(['CPF', 'CNPJ']);
+        const document =
+          docType === 'CPF'
+            ? faker.string.numeric(11)
+            : faker.string.numeric(14);
+
+        return {
+          id: faker.number.int(),
+          name: faker.person.fullName(),
+          doc_type: docType,
+          document,
+        };
+      });
+      jest.spyOn(repository, 'find').mockResolvedValue(mockProducers);
+
+      const result = await service.findAll();
+
+      expect(result).toEqual(mockProducers);
+
+      expect(repository.find).toHaveBeenCalled();
     });
   });
 });
