@@ -1,5 +1,5 @@
 import {
-  BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -17,6 +17,14 @@ export class ProducerService {
   ) {}
 
   async create(createProducerDto: CreateProducerDto): Promise<Producer> {
+    const isDuplicate = await this.producersRepository.findOneBy({
+      document: createProducerDto.document,
+    });
+
+    if (isDuplicate) {
+      throw new ConflictException('Produtor já cadastrado');
+    }
+
     const newProducer =
       await this.producersRepository.create(createProducerDto);
     return this.producersRepository.save(newProducer);
@@ -42,6 +50,14 @@ export class ProducerService {
 
     if (!producer) {
       throw new NotFoundException(`Produtor com ID ${id} não encontrado.`);
+    }
+
+    const exist = await this.producersRepository.findOneBy({
+      document: updateProducerDto.document,
+    });
+
+    if (exist && exist.document != producer.document) {
+      throw new ConflictException('Produtor já cadastrado');
     }
 
     if (updateProducerDto.id) {

@@ -5,6 +5,8 @@ import { DeleteResult, Repository } from 'typeorm';
 import { Producer } from './entities/producer.entity';
 import { faker } from '@faker-js/faker';
 import { NotFoundException } from '@nestjs/common';
+import { CreateProducerDto } from './dto/create-producer.dto';
+import { validate } from 'class-validator';
 
 describe('ProducerService', () => {
   let service: ProducerService;
@@ -34,13 +36,15 @@ describe('ProducerService', () => {
       const createProducerDto = {
         name: 'José da Silva',
         doc_type: 'CPF',
-        document: '12345678901',
+        document: '34630988068',
       };
 
       const savedProducer = {
         id: 1,
         ...createProducerDto,
       };
+
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(undefined);
 
       jest
         .spyOn(repository, 'create')
@@ -90,7 +94,7 @@ describe('ProducerService', () => {
         id: faker.number.int(),
         name: faker.person.fullName(),
         doc_type: 'CPF',
-        document: '12345678901',
+        document: '34630988068',
       };
 
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockProducer);
@@ -109,7 +113,7 @@ describe('ProducerService', () => {
         id: faker.number.int(),
         name: faker.person.fullName(),
         doc_type: 'CPF',
-        document: '12345678901',
+        document: '34630988068',
       };
 
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockProducer);
