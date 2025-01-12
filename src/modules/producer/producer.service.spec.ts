@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProducerService } from './producer.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Producer } from './entities/producer.entity';
 import { faker } from '@faker-js/faker';
+import { NotFoundException } from '@nestjs/common';
 
 describe('ProducerService', () => {
   let service: ProducerService;
@@ -125,6 +126,44 @@ describe('ProducerService', () => {
       expect(result).toEqual(savedProducer);
 
       expect(repository.save).toHaveBeenCalledWith(savedProducer);
+    });
+  });
+
+  describe('delete', () => {
+    it('should return an array of producers', async () => {
+      const mockProducers = Array.from({ length: 5 }).map(() => {
+        const docType = faker.helpers.arrayElement(['CPF', 'CNPJ']);
+        const document =
+          docType === 'CPF'
+            ? faker.string.numeric(11)
+            : faker.string.numeric(14);
+
+        return {
+          id: faker.number.int(),
+          name: faker.person.fullName(),
+          doc_type: docType,
+          document,
+        };
+      });
+      jest.spyOn(repository, 'find').mockResolvedValue(mockProducers);
+
+      const result = await service.findAll();
+
+      let findDelete = result[0];
+
+      jest
+        .spyOn(repository, 'delete')
+        .mockResolvedValue({ affected: 1 } as DeleteResult);
+
+      const deleteResult = await service.remove(findDelete.id);
+
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(undefined);
+
+      await expect(service.findOne(findDelete.id)).rejects.toThrow(
+        NotFoundException,
+      );
+
+      expect(deleteResult).toEqual({ affected: 1 });
     });
   });
 });

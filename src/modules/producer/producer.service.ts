@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Producer } from './entities/producer.entity';
 import { UpdateProducerDto } from './dto/update-producer.dto';
 
@@ -50,5 +50,9 @@ export class ProducerService {
 
     Object.assign(producer, updateProducerDto);
     return this.producersRepository.save(producer);
+  }
+
+  async remove(id: number): Promise<DeleteResult> {
+    return this.producersRepository.delete(id);
   }
 }
