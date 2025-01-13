@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { ValidateFarmArea } from 'src/validators/farm';
 
 export class CreateFarmDto {
   @IsNotEmpty({ message: 'Nome da propriedade não pode ser vazio' })
@@ -14,6 +15,10 @@ export class CreateFarmDto {
   state: string;
 
   @IsNumber()
+  @ValidateFarmArea({
+    message:
+      'A soma das áreas agricultável e de vegetação não pode exceder a área total.',
+  })
   total_area: number;
 
   @IsNumber()
