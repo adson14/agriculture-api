@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS crops_planted (
 CREATE TABLE IF NOT EXISTS crop_culture (
   id SERIAL PRIMARY KEY,
   crop_id INT NOT NULL REFERENCES crop(id) ON DELETE CASCADE,
-  crops_planted_id INT NOT NULL REFERENCES crops_planted(id) ON DELETE CASCADE
+  crops_planted_id INT NOT NULL REFERENCES crops_planted(id) ON DELETE CASCADE,
+  CONSTRAINT unique_crop_culture UNIQUE (crop_id, crops_planted_id)
 );
+
 
