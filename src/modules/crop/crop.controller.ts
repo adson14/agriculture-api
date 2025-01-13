@@ -21,6 +21,15 @@ export class CropController {
     return this.cropService.create(createCropDto);
   }
 
+  @Post(':cropId/cultures')
+  async addCulturesToCrop(
+    @Param('cropId') cropId: number,
+    @Body('culture_ids') cultureIds: number[],
+  ) {
+    await this.cropService.addCulturesToCrop(cropId, cultureIds);
+    return { message: 'Culturas associadas com sucesso' };
+  }
+
   @Get()
   findAll() {
     return this.cropService.findAll();
@@ -29,6 +38,11 @@ export class CropController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.cropService.findOne(+id);
+  }
+
+  @Get(':cropId/cultures')
+  async getCulturesByCrop(@Param('cropId') cropId: number) {
+    return await this.cropService.getCulturesByCrop(cropId);
   }
 
   @Patch(':id')
@@ -40,5 +54,14 @@ export class CropController {
   @HttpCode(204)
   remove(@Param('id') id: string) {
     return this.cropService.remove(+id);
+  }
+
+  @Delete(':cropId/cultures/:cultureId')
+  async removeCultureFromCrop(
+    @Param('cropId') cropId: number,
+    @Param('cultureId') cultureId: number,
+  ) {
+    await this.cropService.removeCultureFromCrop(cropId, cultureId);
+    return { message: 'Cultura desassociada com sucesso' };
   }
 }

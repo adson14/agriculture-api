@@ -1,9 +1,11 @@
+import { CropCulture } from '../../../entity/cropCulture.entity';
 import { Farm } from '../../farm/entities/farm.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -20,4 +22,7 @@ export class Crop {
   })
   @JoinColumn({ name: 'farm_id' })
   farm: Farm;
+
+  @OneToMany(() => CropCulture, (cropCulture) => cropCulture.crop)
+  cropCultures: CropCulture[];
 }

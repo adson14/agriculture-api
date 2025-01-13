@@ -4,8 +4,10 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Farm } from '../../farm/entities/farm.entity';
+import { CropCulture } from '../../../entity/cropCulture.entity';
 
 @Entity('crops_planted')
 export class CropPlanted {
@@ -20,4 +22,7 @@ export class CropPlanted {
   })
   @JoinColumn({ name: 'farm_id' })
   farm: Farm;
+
+  @OneToMany(() => CropCulture, (cropCulture) => cropCulture.cropPlanted)
+  cropCultures: CropCulture[];
 }

@@ -7,6 +7,8 @@ import { Farm } from '../farm/entities/farm.entity';
 import { CreateCropDto } from './dto/create-crop.dto';
 import { NotFoundException } from '@nestjs/common';
 import { UpdateCropDto } from './dto/update-crop.dto';
+import { CropPlanted } from '../crops_planted/entities/crops_planted.entity';
+import { CropCulture } from '../../entity/cropCulture.entity';
 
 describe('CropService', () => {
   let service: CropService;
@@ -23,6 +25,14 @@ describe('CropService', () => {
         },
         {
           provide: getRepositoryToken(Farm),
+          useClass: Repository,
+        },
+        {
+          provide: getRepositoryToken(CropPlanted),
+          useClass: Repository,
+        },
+        {
+          provide: getRepositoryToken(CropCulture),
           useClass: Repository,
         },
       ],
