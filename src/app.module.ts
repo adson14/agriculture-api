@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { FarmModule } from './modules/farm/farm.module';
 import { CropModule } from './modules/crop/crop.module';
 import { CropsPlantedModule } from './modules/crops_planted/crops_planted.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CropsPlantedModule } from './modules/crops_planted/crops_planted.module
     FarmModule,
     CropModule,
     CropsPlantedModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
