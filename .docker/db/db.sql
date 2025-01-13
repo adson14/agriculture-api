@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS crop (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS crops_planted (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(45) NOT NULL
+  name VARCHAR(45) NOT NULL,
+  farm_id INT NOT NULL REFERENCES farm(id) ON DELETE CASCADE
 );
 
 -- -----------------------------------------------------
@@ -53,3 +54,4 @@ CREATE TABLE IF NOT EXISTS crop_culture (
   crop_id INT NOT NULL REFERENCES crop(id) ON DELETE CASCADE,
   crops_planted_id INT NOT NULL REFERENCES crops_planted(id) ON DELETE CASCADE
 );
+
