@@ -63,8 +63,8 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 ### Passo 1: Clonar o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/adson14/agriculture-api.git
+cd agriculture-api
 ```
 
 ### Passo 2: Configurar Variáveis de Ambiente
