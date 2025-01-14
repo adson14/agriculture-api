@@ -27,6 +27,25 @@ services:
     networks:
       - nestjs_network  
 
+  otel-collector:
+      image: otel/opentelemetry-collector-contrib:latest
+      volumes:
+        - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+      command:
+        - "--config=/etc/otel-collector-config.yml"
+      ports:
+        - "4317:4317"  # Porta para OTLP gRPC
+        - "4318:4318"  # Porta para OTLP HTTP
+      networks:
+        - nestjs_network  
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - '16686:16686'  # Interface do Jaeger
+      - '4319:4317'  # Porta de coleta de traços         
+    networks:
+      - nestjs_network        
+
 networks:
   nestjs_network:
     driver: bridge

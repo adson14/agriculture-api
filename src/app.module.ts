@@ -8,6 +8,8 @@ import { FarmModule } from './modules/farm/farm.module';
 import { CropModule } from './modules/crop/crop.module';
 import { CropsPlantedModule } from './modules/crops_planted/crops_planted.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TraceInterceptor } from './config/traceinterceptor';
 
 @Module({
   imports: [
@@ -29,6 +31,12 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     DashboardModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TraceInterceptor,
+    },
+  ],
 })
 export class AppModule {}

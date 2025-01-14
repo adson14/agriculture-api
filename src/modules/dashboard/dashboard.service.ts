@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Farm } from '../farm/entities/farm.entity';
-import { CropPlanted } from '../crops_planted/entities/crops_planted.entity';
 import { CropCulture } from '../../entity/cropCulture.entity';
 
 @Injectable()
