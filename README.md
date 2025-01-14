@@ -105,6 +105,10 @@ Para rodar os testes automatizados, execute:
 npm run test
 ```
 
+## Diagrama
+
+![Diagrama EER](./eer_diagram.png)
+
 ## Licença
 
 Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
