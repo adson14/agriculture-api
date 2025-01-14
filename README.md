@@ -25,6 +25,7 @@ Este é um sistema de gerenciamento de produtores rurais que permite o cadastro,
 - **Documentação**: Swagger.
 - **Validações**: Class-validator e custom validators.
 - **Testes**: Jest.
+- **Observabilidade**: OpenTelemetry.
 
 ---
 
@@ -76,6 +77,10 @@ DATABASE_PORT=5432
 DATABASE_USER=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_NAME=agriculture
+OTEL_SERVICE_NAME=brain
+OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+OTEL_TRACES_EXPORTER=otlp
+OTEL_LOGS_EXPORTER=otlp
 ```
 
 ### Passo 3: Subir o Ambiente com Docker
@@ -86,11 +91,11 @@ Utilize o Docker Compose para subir o ambiente local:
 docker-compose up --build
 ```
 
-A aplicação estará disponível em: `http://localhost:3000`.
+A aplicação estará disponível em: `http://localhost:3001`.
 
 ### Passo 4: Acessar a Documentação da API
 
-A documentação da API estará disponível em: `http://localhost:3000/api-docs`.
+A documentação da API estará disponível em: `http://localhost:3001/api-docs`.
 
 ## Testes
 
